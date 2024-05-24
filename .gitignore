@@ -9,3 +9,4 @@ target/*
 _site/
 .gitpod/mount_shared_folder.sh
 .gitpod/link_m2.sh
+shared
