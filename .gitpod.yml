@@ -9,10 +9,10 @@ tasks:
       gp idp login aws --role-arn arn:aws:iam::950174689815:role/shared-state-access-role
 
       # mount our S3 bucket to a local folder
-      mount_s3.sh shared-state-test /workspace/shared-folder-sample-lib/shared
+      mount_s3.sh shared-state-test /workspace/shared-folder-sample/shared
 
       # use a symlink to relocate the Maven artifact into the shared folder
-      link.sh secretsauce /workspace/m2-repository/com/mycompany /workspace/shared-folder-sample-lib/shared
+      link.sh secretsauce /workspace/m2-repository/com/mycompany /workspace/shared-folder-sample/shared
 
       # run application
       ./mvnw spring-boot:run
