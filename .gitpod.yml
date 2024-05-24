@@ -5,17 +5,16 @@ tasks:
   - name: Run PetClinic app
     init: ./mvnw clean install -U -DskipTests
     command: |
-      (cd .gitpod
-        wget https://raw.githubusercontent.com/meysholdt/shared-folder-sample-lib/main/.gitpod/link_m2.sh
-        wget https://raw.githubusercontent.com/meysholdt/shared-folder-sample-lib/main/.gitpod/mount_shared_folder.sh
-        chmod +x link_m2.sh
-        chmod +x mount_shared_folder.sh
-      )
-      export PATH="$PATH:$GITPOD_REPO_ROOT/.gitpod"
+      # authenticate with AWS via OIDC so we can get access to S3
       gp idp login aws --role-arn arn:aws:iam::950174689815:role/shared-state-access-role
-      mount_shared_folder.sh
-      link_m2.sh
 
+      # mount our S3 bucket to a local folder
+      mount_s3.sh shared-state-test /workspace/shared-folder-sample-lib/shared
+
+      # use a symlink to relocate the Maven artifact into the shared folder
+      link.sh secretsauce /workspace/m2-repository/com/mycompany /workspace/shared-folder-sample-lib/shared
+
+      # run application
       ./mvnw spring-boot:run
 
 ports:
